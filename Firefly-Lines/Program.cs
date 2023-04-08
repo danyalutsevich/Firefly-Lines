@@ -11,10 +11,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<Directions>();
 builder.Services.AddSingleton<PlacesByName>();
+builder.Services.AddSingleton<PlacesByCoordinates>();
 builder.Services.AddSingleton<HttpClient>();
-
-
-var app = builder.Build();
 
 builder.Services.AddCors(options =>
 {
@@ -25,8 +23,10 @@ builder.Services.AddCors(options =>
 			.AllowAnyHeader();
 	});
 });
-app.UseCors("AllowAll");
 
+
+var app = builder.Build();
+app.UseCors("AllowAll");
 
 // Load .env
 DotNetEnv.Env.Load();
