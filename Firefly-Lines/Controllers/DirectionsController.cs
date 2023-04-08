@@ -6,9 +6,11 @@ namespace Firefly_Lines.Controllers
 	[Route("[controller]")]
 	public class DirectionsController : Controller
 	{
-		[HttpGet(Name = "GetDirections")]
-		public IActionResult Get()
+		[HttpGet("{profile}/{coordinates}")]
+		public IActionResult Get(string profile, string coordinates)
 		{
+
+			Console.WriteLine(profile +" "+ coordinates);
 			return new JsonResult(new { Message = "Hello from DirectionsController" });
 		}
 	}
