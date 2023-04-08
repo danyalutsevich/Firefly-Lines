@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Firefly_Lines.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Firefly_Lines.Controllers
 {
@@ -6,20 +7,17 @@ namespace Firefly_Lines.Controllers
 	[Route("[controller]")]
 	public class DirectionsController : Controller
 	{
-		private string _token = Environment.GetEnvironmentVariable("MAPBOX_TOKEN");
+		private readonly Directions _directions;
 
-		private string _directionsUrl = "https://api.mapbox.com/directions/v5/mapbox/";
-		static HttpClient _httpClient = new HttpClient();
+		public DirectionsController(Directions directions)
+		{
+			_directions = directions;
+		}
 		[HttpGet("{profile}/{coordinates}")]
-		public IActionResult Get(string profile, string coordinates)
+		public async Task<IActionResult> Get(string profile, string coordinates)
 		{
 			//profile = profile.Split("/")[1];
-			var url = $"{_directionsUrl}{profile}/{coordinates}?access_token={_token}";
-			Console.WriteLine(url);
-			using var request = new HttpRequestMessage(HttpMethod.Get, url);
-			using var response = _httpClient.SendAsync(request);
-			var result = response.Result.Content.ReadAsStringAsync().Result;
-			Console.WriteLine(result);
+			var result = await _directions.GetDirections(profile, coordinates);
 			return new JsonResult(result);
 		}
 	}
