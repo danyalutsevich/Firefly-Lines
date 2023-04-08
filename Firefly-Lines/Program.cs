@@ -10,9 +10,23 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<Directions>();
+builder.Services.AddSingleton<PlacesByName>();
 builder.Services.AddSingleton<HttpClient>();
 
+
 var app = builder.Build();
+
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy("AllowAll", builder =>
+	{
+		builder.AllowAnyOrigin()
+			.AllowAnyMethod()
+			.AllowAnyHeader();
+	});
+});
+app.UseCors("AllowAll");
+
 
 // Load .env
 DotNetEnv.Env.Load();

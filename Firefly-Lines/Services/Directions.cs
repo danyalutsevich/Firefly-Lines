@@ -1,4 +1,6 @@
-﻿namespace Firefly_Lines.Services
+﻿using System.Text;
+
+namespace Firefly_Lines.Services
 {
 	public class Directions
 	{
