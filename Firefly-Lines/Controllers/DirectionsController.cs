@@ -6,7 +6,7 @@ namespace Firefly_Lines.Controllers
 	[Route("[controller]")]
 	public class DirectionsController : Controller
 	{
-		private string _token = "";
+		private string _token = Environment.GetEnvironmentVariable("MAPBOX_TOKEN");
 
 		private string _directionsUrl = "https://api.mapbox.com/directions/v5/mapbox/";
 		static HttpClient _httpClient = new HttpClient();
@@ -16,7 +16,7 @@ namespace Firefly_Lines.Controllers
 			//profile = profile.Split("/")[1];
 			var url = $"{_directionsUrl}{profile}/{coordinates}?access_token={_token}";
 			Console.WriteLine(url);
-			using var request = new HttpRequestMessage(HttpMethod.Post, url);
+			using var request = new HttpRequestMessage(HttpMethod.Get, url);
 			using var response = _httpClient.SendAsync(request);
 			var result = response.Result.Content.ReadAsStringAsync().Result;
 			Console.WriteLine(result);
