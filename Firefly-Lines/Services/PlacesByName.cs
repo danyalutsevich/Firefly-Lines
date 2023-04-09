@@ -37,8 +37,8 @@ public class PlacesByName
             placesObj.places.Add(new()
             {
                 place_name = place.place_name,
-                coordinates = place.center[0].ToString() + ',' + place.center[1].ToString()
-            });
+                coordinates = place.center[0].ToString().Replace(",",".") + ',' + place.center[1].ToString().Replace(",", ".")
+			});
         }
 
         var placesJson = JsonConvert.SerializeObject(placesObj);
