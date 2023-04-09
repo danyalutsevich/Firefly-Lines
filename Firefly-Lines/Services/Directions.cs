@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace Firefly_Lines.Services
 {
@@ -6,7 +8,7 @@ namespace Firefly_Lines.Services
 	{
 		private readonly string _token = Environment.GetEnvironmentVariable("MAPBOX_TOKEN");
 
-		private const string baseUrl = "https://api.mapbox.com/directions/v5/mapbox/";
+		private const string BaseUrl = "https://api.mapbox.com/directions/v5/mapbox/";
 		private readonly HttpClient _httpClient;
 
 		public Directions(HttpClient httpClient)
@@ -14,14 +16,16 @@ namespace Firefly_Lines.Services
 			_httpClient = httpClient;
 		}
 
-		public async Task<string> GetDirections(string profile, string coordinates)
+		public async Task<object> GetDirections(string profile, string coordinates)
 		{
-			var url = $"{baseUrl}{profile}/{coordinates}?access_token={_token}";
+			var url = $"{BaseUrl}{profile}/{coordinates}?alternatives=true&access_token={_token}";
 			Console.WriteLine(url);
 			using var request = new HttpRequestMessage(HttpMethod.Get, url);
 			using var response = await _httpClient.SendAsync(request);
 			var result = await response.Content.ReadAsStringAsync();
 			return result;
+
+
 		}
 	}
 }

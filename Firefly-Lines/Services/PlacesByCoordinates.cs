@@ -4,7 +4,7 @@ public class PlacesByCoordinates
 {
     private readonly string _token = Environment.GetEnvironmentVariable("MAPBOX_TOKEN");
 
-    private const string baseUrl = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
+    private const string BaseUrl = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
     private readonly HttpClient _httpClient;
 
     public PlacesByCoordinates(HttpClient httpClient)
@@ -14,7 +14,7 @@ public class PlacesByCoordinates
     
     public async Task<string> GetPlaces(string coordinates)
     {
-        var url = $"{baseUrl}{coordinates}.json?access_token={_token}";
+        var url = $"{BaseUrl}{coordinates}.json?access_token={_token}";
         Console.WriteLine(url);
         using var request = new HttpRequestMessage(HttpMethod.Get, url);
         using var response = await _httpClient.SendAsync(request);
